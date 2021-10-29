@@ -11,7 +11,7 @@
 
 
     </style>
-    <script src="./../lib/index_standalone.js"></script>
+    <script src="./../lib/audio_worklet_starter.js"></script>
     <script>
       function setInnerText(id, innerText) {
         document.getElementById(id).innerText = innerText
@@ -24,8 +24,7 @@
             numberOfInputs: 1,
             numberOfOutputs: 1,
             outputChannelCount: [2]
-          },
-          wasmUrl: "x"
+          }
         }
         startAudioWorklet(opts).then((workletNode) => {
           console.log(workletNode)
