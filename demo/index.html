@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>audio-worklet-starter demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 30px;
+      }
+
+
+    </style>
+    <script src="./../lib/index_standalone.js"></script>
+    <script>
+      function setInnerText(id, innerText) {
+        document.getElementById(id).innerText = innerText
+      }
+      function start() {
+        const opts = {
+          workletNodeName: "demo-processor",
+          workletSrcUrl: "demo_processor.js",
+          workletNodeOptions: {
+            numberOfInputs: 1,
+            numberOfOutputs: 1,
+            outputChannelCount: [2]
+          },
+          wasmUrl: "x"
+        }
+        startAudioWorklet(opts).then((workletNode) => {
+          console.log(workletNode)
+          setInnerText("context-state", workletNode.context.state)
+          setInnerText("sample-rate", workletNode.context.sampleRate)
+          setInnerText("latency", workletNode.context.baseLatency + " s")
+          setInnerText("num-inputs", workletNode.numberOfInputs)
+          setInnerText("num-outputs", workletNode.numberOfOutputs)
+        }).catch((e) => {
+          setInnerText("error-message", e)
+          console.log(e instanceof WebAssemblyFetchError)
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <h1>audio-worklet-starter demo</h1>
+
+    <table>
+      <tr>
+        <td>Context state</td>
+        <td id="context-state">n/a</td>
+      </tr>
+      <tr>
+        <td>Context sample rate</td>
+        <td id="sample-rate">n/a</td>
+      </tr>
+      <tr>
+        <td>Context base latency</td>
+        <td id="latency">n/a</td>
+      </tr>
+      <tr>
+        <td>Number of inputs</td>
+        <td id="num-inputs">n/a</td>
+      </tr>
+      <tr>
+        <td>Number of outputs</td>
+        <td id="num-outputs">n/a</td>
+      </tr>
+    </table>
+    <p>Chrome won't allow playback unless bla bla</p>
+    <div id="button-container">
+      <button onclick="start()">Playback only</button>
+      <button onclick="start()">Recording only (recording required)</button>
+      <button onclick="start()">Playback and recording</button>
+      <button onclick="start()">WebAssembly synth</button>
+    </div>
+    <div id="error-message">
+
+    </div>
+  </body>
+</html>
