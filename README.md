@@ -1,22 +1,22 @@
-## What is this?
+# What is this?
 
-`audio-worklet-starter` is a dead simple, single function library for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet).
+`audio-worklet-starter` is a dead simple, single function library for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you won't have to.
 
-## Adding the library to your project
+# Adding the library to your project
 
-### As an ES6 module
+## As an ES6 module
 
 Add `audio-worklet-starter` to your `package.json` and import the library like so:
 
 ```import { startAudioWorklet } from "audio-worklet-starter"```
 
-### As a standalone javascript file
+## As a standalone javascript file
 
 The standalone version [`lib/audio_worklet_starter.js`](https://github.com/stuffmatic/audio-worklet-starter/blob/develop/lib/audio_worklet_starter.js) can be used directly in an HTML file by adding a script tag like this
 
 ```<script src="/some/path/to/audio_worklet_starter.js"></script>```
 
-## Usage
+# Usage
 
 The `startAudioWorklet` function is used to create and start an audio worklet:
 
@@ -41,10 +41,10 @@ startAudioWorklet(options)
 	})
 ```
 
-See [`AudioWorkletOptions`]() for allowed attributes of `options`.
+See [`AudioWorkletOptions`](src/lib.ts#L37) for allowed attributes of `options`.
 
 
-### Using WebAssembly
+## Using WebAssembly
 
 Running WebAssembly code in audio worklets is a three step process:
 
@@ -52,9 +52,9 @@ Running WebAssembly code in audio worklets is a three step process:
 2. Send the result to the worklet using the `port` of the audio worklet node.
 3. Receive, instantiate and use the WebAssembly code in the worklet processor
 
-If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](TODO) for how to perform step 3.
+If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js) for how to perform step 3.
 
-## Demo
+# Demo
 
 To run the live demo
 
