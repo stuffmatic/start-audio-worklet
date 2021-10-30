@@ -39,7 +39,7 @@ export enum MicrophoneMode {
  */
 export interface AudioWorkletOptions {
   /**
-   * The name used when registering the worklet processor using `registerProcessor`.
+   * The name used when registering the worklet processor with `registerProcessor`.
    */
   workletNodeName: string
   /**
@@ -52,7 +52,7 @@ export interface AudioWorkletOptions {
    */
   workletNodeOptions: AudioWorkletNodeOptions
   /**
-   * The desired sample rate. Defaults to 44100 if not specified
+   * The desired sample rate. Defaults to 44100 Hz if not specified
    */
   sampleRate?: number
   /**
@@ -123,6 +123,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
     options.workletNodeName,
     options.workletNodeOptions
   )
+  workletNode.connect(context.destination)
 
   // If there is a microphone stream, connect it to the worklet node
   if (micStream != null) {
@@ -137,7 +138,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
     if (!fetchResult.ok) {
       throw new WebAssemblyFetchError("WebAssembly fetch failed with status " + fetchResult.status)
     }
-    const wasmData = fetchResult.arrayBuffer()
+    const wasmData = await fetchResult.arrayBuffer()
     workletNode.port.postMessage({ type: 'wasmData', data: wasmData })
   }
 

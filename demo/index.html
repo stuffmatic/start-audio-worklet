@@ -16,23 +16,29 @@
       function setInnerText(id, innerText) {
         document.getElementById(id).innerText = innerText
       }
+
+      function onWorkletNodeCreated(workletNode) {
+        console.log(workletNode)
+        setInnerText("context-state", workletNode.context.state)
+        setInnerText("sample-rate", workletNode.context.sampleRate)
+        setInnerText("latency", workletNode.context.baseLatency + " s")
+        setInnerText("num-inputs", workletNode.numberOfInputs)
+        setInnerText("num-outputs", workletNode.numberOfOutputs)
+      }
+
       function start() {
         const opts = {
-          workletNodeName: "demo-processor",
-          workletProcessorUrl: "demo_processor.js",
+          workletNodeName: "demo-wasm-processor",
+          workletProcessorUrl: "demo_wasm_processor.js",
           workletNodeOptions: {
-            numberOfInputs: 1,
+            numberOfInputs: 0,
             numberOfOutputs: 1,
             outputChannelCount: [2]
-          }
+          },
+          wasmUrl: "demo_synth.wasm"
         }
         startAudioWorklet(opts).then((workletNode) => {
-          console.log(workletNode)
-          setInnerText("context-state", workletNode.context.state)
-          setInnerText("sample-rate", workletNode.context.sampleRate)
-          setInnerText("latency", workletNode.context.baseLatency + " s")
-          setInnerText("num-inputs", workletNode.numberOfInputs)
-          setInnerText("num-outputs", workletNode.numberOfOutputs)
+          onWorkletNodeCreated(workletNode)
         }).catch((e) => {
           setInnerText("error-message", e)
           console.log(e instanceof WebAssemblyFetchError)

@@ -43,7 +43,6 @@ startAudioWorklet(options)
 
 See [`AudioWorkletOptions`](src/index.ts#L37) for allowed attributes of `options`.
 
-
 ## Using WebAssembly
 
 Running WebAssembly code in audio worklets is a three step process:
@@ -61,7 +60,11 @@ To run the live demo
 * Run `yarn run demo` to start the demo server
 * Open [https://localhost:8000/demo](https://localhost:8000/demo) in a browser
 
-To allow for microphone access, the demo page is served over https using a self signed certificate. Any browser safety warnings can be safely ignored. Your browser may not allow self signed certificates by default. If you're running Brave or Chrome, you can change this behavior with
+To allow for microphone access, the demo page is served over https using a self signed certificate. Any browser warnings can be safely ignored. Note that your browser may not allow self signed certificates by default. If you're running Brave or Chrome, you can change this behavior with
 
 * `brave://flags/#allow-insecure-localhost` (for Brave)
 * `chrome://flags/#allow-insecure-localhost` (for Chrome)
+
+## Rust demo synth
+
+TODO

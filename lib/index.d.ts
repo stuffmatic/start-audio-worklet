@@ -1,7 +1,16 @@
+/**
+ * The browser does not support WebAssembly.
+ */
 export declare class WebAssemblyNotSupportedError extends Error {
 }
+/**
+ * The browser does not support audio worklets.
+ */
 export declare class AudioWorkletNotSupportedError extends Error {
 }
+/**
+ * Failed to fetch the WebAssembly module at the specified URL.
+ */
 export declare class WebAssemblyFetchError extends Error {
 }
 /**
@@ -27,11 +36,11 @@ export declare enum MicrophoneMode {
     disabled = "disabled"
 }
 /**
- * Options passed to startAudioWorklet
+ * Options passed to startAudioWorklet.
  */
 export interface AudioWorkletOptions {
     /**
-     * The name used when registering the worklet processor using `registerProcessor`.
+     * The name used when registering the worklet processor with `registerProcessor`.
      */
     workletNodeName: string;
     /**
@@ -44,7 +53,7 @@ export interface AudioWorkletOptions {
      */
     workletNodeOptions: AudioWorkletNodeOptions;
     /**
-     * The desired sample rate. Defaults to 44100 if not specified
+     * The desired sample rate. Defaults to 44100 Hz if not specified
      */
     sampleRate?: number;
     /**
