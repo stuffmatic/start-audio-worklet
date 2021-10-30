@@ -12,7 +12,7 @@ Add `audio-worklet-starter` to your `package.json` and import the library like s
 
 ## As a standalone javascript file
 
-The standalone version [`lib/audio_worklet_starter.js`](https://github.com/stuffmatic/audio-worklet-starter/blob/develop/lib/audio_worklet_starter.js) can be used directly in an HTML file by adding a script tag like this
+The standalone version [`lib/audio_worklet_starter.js`](lib/audio_worklet_starter.js) can be used directly in an HTML file by adding a script tag like this
 
 ```<script src="/some/path/to/audio_worklet_starter.js"></script>```
 
@@ -41,7 +41,7 @@ startAudioWorklet(options)
 	})
 ```
 
-See [`AudioWorkletOptions`](src/lib.ts#L37) for allowed attributes of `options`.
+See [`AudioWorkletOptions`](src/index.ts#L37) for allowed attributes of `options`.
 
 
 ## Using WebAssembly
