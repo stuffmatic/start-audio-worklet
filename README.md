@@ -67,4 +67,4 @@ To allow for microphone access, the demo page is served over https using a self 
 
 ## Rust demo synth
 
-The `demo_synth` folder contains a minimal demo synth written in Rust. This synth is used in the WebAssembly demo.
+The [`demo_synth`](demo_synth) folder contains a minimal demo synth written in Rust. This synth is used in the WebAssembly demo.
