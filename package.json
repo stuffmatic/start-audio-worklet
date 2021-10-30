@@ -15,6 +15,6 @@
   },
   "scripts": {
     "demo": "http-server . -S -C ./demo/localhost_cert/cert.pem -K ./demo/localhost_cert/key.pem",
-    "build": "tsc src/index.ts --target es6 --module ES2015 --lib ES2015,dom --declaration --outDir lib; node create_standalone.js"
+    "build": "tsc src/index.ts --target es6 --module ES2015 --lib ES2015,dom --declaration --outDir lib; node create_standalone_lib.js"
   }
 }
