@@ -1,12 +1,12 @@
 ## What is this?
 
-`audio-worklet-starter` is a dead simple, single function library for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). 
+`audio-worklet-starter` is a dead simple, single function library for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet).
 
 ## Adding the library to your project
 
-### As a node module
+### As an ES6 module
 
-Add `audio-worklet-starter` to your `package.json` and import the library like so: 
+Add `audio-worklet-starter` to your `package.json` and import the library like so:
 
 ```import { startAudioWorklet } from "audio-worklet-starter"```
 
@@ -22,7 +22,7 @@ The `startAudioWorklet` function is used to create and start an audio worklet:
 
 ```
 const options = {
-  "workletSrcUrl": "my_worklet_processor.js",
+  "workletProcessorUrl": "my_worklet_processor.js",
   "workletNodeName": "my_worklet",
   "workletNodeOptions: {
     numberOfInputs: 0,
@@ -33,7 +33,7 @@ const options = {
 
 startAudioWorklet(options)
 	.then((workletNode) => {
-		// The worklet was started. 
+		// The worklet was started.
 		// workletNode is the AudioWorkletNode instance
 	})
 	.catch((error) => {
@@ -41,60 +41,18 @@ startAudioWorklet(options)
 	})
 ```
 
-Allowed attributes of `options` are:
+See [`AudioWorkletOptions`]() for allowed attributes of `options`.
 
-* `workletSrcUrl` (string) - The URL of the worklet processor javascript source file
-* `workletNodeName` (string) - The name used when registering the worklet processor using `registerProcessor`
-* `workletNodeOptions` ([`AudioWorkletNodeOptions`](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode/AudioWorkletNode)) - Options passed when creating the [`AudioWorkletNode`](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode/AudioWorkletNode) instance.
-* `sampleRate` (number, optional) - The desired sample rate. Defaults to 44100 Hz if not specified.
-* `requireMicAccess` (boolean, optional) - If `true`, an error will be thrown if at least one input channel has been requested and the user denies access to the microphone.
-* `wasmUrl` (string, optional) - A URL to WebAssembly code to be used by the audio worklet.
 
 ### Using WebAssembly
 
 Running WebAssembly code in audio worklets is a three step process:
 
-1. Import the WebAssembly code from your main javascript code
+1. Import the WebAssembly module from your main javascript code
 2. Send the result to the worklet using the `port` of the audio worklet node.
-3. Receive and instantiate the WebAssembly code in the worklet
+3. Receive, instantiate and use the WebAssembly code in the worklet processor
 
-If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. Below is an example showing how to perform step 3 in your processor class.
-
-```
-class WasmProcessor extends AudioWorkletProcessor {
-  constructor(options) {
-    super(options)
-
-    this.port.onmessage = e => {
-      switch (e.data.type) {
-        case "loadWasm": {
-          WebAssembly.instantiate(e.data.data).then((wasm) => {
-          	this.wasm = wasm
-          })
-          break
-        }
-        // Handle other messages
-        // ...
-      }
-    }
-  }
-
-  process(inputs, outputs, parameters) {
-    if (!this.wasm) {
-      // WebAssembly code is not ready
-      return true
-    }
-    
-    // Do processing using this.wasm
-    // ...
-
-    return true
-  }
-}
-
-registerProcessor('wasm-processor', WasmProcessor)
-
-```
+If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](TODO) for how to perform step 3.
 
 ## Demo
 
@@ -103,7 +61,7 @@ To run the live demo
 * Run `yarn run demo` to start the demo server
 * Open [https://localhost:8000/demo](https://localhost:8000/demo) in a browser
 
-To allow for microphone access the demo page is served over https using a self signed certificate. You can safely ignore any browser safetyl warnings. Your browser may not allow self signed certificates by default. If you're running Brave or Chrome, you can change that behaviour with 
+To allow for microphone access, the demo page is served over https using a self signed certificate. Any browser safety warnings can be safely ignored. Your browser may not allow self signed certificates by default. If you're running Brave or Chrome, you can change this behavior with
 
 * `brave://flags/#allow-insecure-localhost` (for Brave)
 * `chrome://flags/#allow-insecure-localhost` (for Chrome)

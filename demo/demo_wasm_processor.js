@@ -4,7 +4,7 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
 
     this.port.onmessage = e => {
       switch (e.data.type) {
-        case "loadWasm": {
+        case "wasmData": {
           WebAssembly.instantiate(e.data.data).then(w => {})
           break
         }
