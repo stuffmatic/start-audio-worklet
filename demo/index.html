@@ -99,10 +99,6 @@
       document.getElementById(id).innerText = innerText
     }
 
-    function onError(error) {
-
-    }
-
     function onWorkletNodeCreated(node) {
       document.getElementById("button-container").style.display = "none"
       document.getElementById("synth-container").style.display = "inherit"
@@ -143,7 +139,6 @@
 
 <body>
   <h1>audio-worklet-starter demo</h1>
-
 
   <div id="button-container">
     <p>Note: Chrome won't allow playback until the user has interacted with the page.</p>
