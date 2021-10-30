@@ -1,6 +1,6 @@
 # What is this?
 
-`audio-worklet-starter` is a dead simple, single function library for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you won't have to.
+`audio-worklet-starter` is a dead simple, single function library for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you don't have to.
 
 # Adding the library to your project
 
@@ -67,4 +67,4 @@ To allow for microphone access, the demo page is served over https using a self 
 
 ## Rust demo synth
 
-TODO
+The `demo_synth` folder contains a minimal demo synth written in Rust. This synth is used in the WebAssembly demo.

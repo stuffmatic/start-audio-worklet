@@ -49,7 +49,7 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
       if (inputChannels.length > 0) {
         this.inBuffer.set(inputChannels[0])
         const maxLevel = this.wasm.exports.buffer_max_level(this.inBufferPointer, this.inBuffer.length)
-        this.port.postMessage({ type: "maxLevel", value: maxLevel})
+        this.port.postMessage({ type: "maxLevel", value: maxLevel })
       }
     }
 
