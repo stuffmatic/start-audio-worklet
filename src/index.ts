@@ -116,8 +116,16 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   // and WebAssembly src.
   const urlTimestampSuffix = "?t=" + new Date().getTime()
 
-  // Create audio worklet node
   await context.audioWorklet.addModule(options.workletProcessorUrl + urlTimestampSuffix)
+  const workletNodeOptions = options.workletNodeOptions
+
+  // Add the actual sample rate to the worklet processor
+  workletNodeOptions.processorOptions = {
+    ...workletNodeOptions.processorOptions,
+    "sampleRate": context.sampleRate
+  }
+
+  // Create audio worklet node
   const workletNode = new AudioWorkletNode(
     context,
     options.workletNodeName,
