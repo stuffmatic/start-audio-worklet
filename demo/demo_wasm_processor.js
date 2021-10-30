@@ -10,15 +10,9 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
           })
           break
         }
-        case "noteOn": {
+        case "toggleTone": {
           if (this.wasm) {
-            this.wasm.exports.note_on()
-          }
-          break
-        }
-        case "noteOff": {
-          if (this.wasm) {
-            this.wasm.exports.note_off()
+            this.wasm.exports.toggle_tone()
           }
           break
         }
@@ -29,19 +23,20 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
   onWasmInstantiated(wasm) {
     this.wasm = wasm
 
-    this._size = 128
+    // Audio worklets seem to use a fixed buffer size of 128
+    const bufferSize = 128
 
-    this._inPtr = this.wasm.exports.allocate_f32_array(this._size)
-    this._outPtr = this.wasm.exports.allocate_f32_array(this._size)
-    this._inBuf = new Float32Array(
+    this.inBufferPointer = this.wasm.exports.allocate_f32_array(bufferSize)
+    this.outBufferPointer = this.wasm.exports.allocate_f32_array(bufferSize)
+    this.inBuffer = new Float32Array(
       this.wasm.exports.memory.buffer,
-      this._inPtr,
-      this._size
+      this.inBufferPointer,
+      bufferSize
     )
-    this._outBuf = new Float32Array(
+    this.outBuffer = new Float32Array(
       this.wasm.exports.memory.buffer,
-      this._outPtr,
-      this._size
+      this.outBufferPointer,
+      bufferSize
     )
   }
 
@@ -49,17 +44,20 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
     if (!this.wasm) {
       return true
     }
-
-    const channels = outputs[0]
-    this.wasm.exports.process(this._outPtr, channels[0].length)
-    for (let channel = 0; channel < channels.length; ++channel) {
-      channels[channel].set(this._outBuf)
-      /*for (let i = 0; i < channels[channel].length; i++) {
-        channels[channel][i] = Math.random()
-      }*/
+    if (inputs.length > 0) {
+      const inputChannels = inputs[0]
+      if (inputChannels.length > 0) {
+        this.inBuffer.set(inputChannels[0])
+        const maxLevel = this.wasm.exports.buffer_max_level(this.inBufferPointer, this.inBuffer.length)
+        this.port.postMessage({ type: "maxLevel", value: maxLevel})
+      }
     }
 
-    // console.log(outputs)
+    const outputChannels = outputs[0]
+    this.wasm.exports.render(this.outBufferPointer, this.outBuffer.length)
+    for (let channel = 0; channel < outputChannels.length; ++channel) {
+      outputChannels[channel].set(this.outBuffer)
+    }
 
     return true
   }
