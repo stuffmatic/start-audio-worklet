@@ -32,13 +32,13 @@ const options = {
 }
 
 startAudioWorklet(options)
-	.then((workletNode) => {
-		// The worklet was started.
-		// workletNode is the AudioWorkletNode instance
-	})
-	.catch((error) => {
-		// Something went wrong. Handle error.
-	})
+  .then((workletNode) => {
+    // The worklet was started.
+    // workletNode is the AudioWorkletNode instance
+  })
+  .catch((error) => {
+    // Something went wrong. Handle error.
+  })
 ```
 
 See [`AudioWorkletOptions`](src/index.ts#L37) for allowed attributes of `options`.
