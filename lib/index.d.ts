@@ -57,12 +57,12 @@ export interface AudioWorkletOptions {
      */
     sampleRate?: number;
     /**
-     * A URL to a WebAssembly module that is loaded and sent to the worklet processor
+     * An optional URL to a WebAssembly module to be loaded and sent to the worklet processor
      * via its message port. The message has the form `{ "type": "wasmData", "data": ... }`.
      */
     wasmUrl?: string;
     /**
-     * Determines how to handle microphone access.
+     * Determines how to handle microphone access. Defaults to "optional" if not specified.
      * @see MicrophoneMode.
      * */
     microphoneMode?: MicrophoneMode;

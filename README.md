@@ -20,11 +20,11 @@ The standalone version [`lib/audio_worklet_starter.js`](lib/audio_worklet_starte
 
 The `startAudioWorklet` function is used to create and start an audio worklet:
 
-```
+```javascript
 const options = {
-  "workletProcessorUrl": "my_worklet_processor.js",
-  "workletNodeName": "my_worklet",
-  "workletNodeOptions: {
+  workletProcessorUrl: "my_worklet_processor.js",
+  workletNodeName: "my_worklet",
+  workletNodeOptions: {
     numberOfInputs: 0,
     numberOfOutputs: 1,
     outputChannelCount: [2]
