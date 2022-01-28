@@ -51,7 +51,7 @@ Running WebAssembly code in audio worklets is a three step process:
 2. Send the result to the worklet using the `port` of the audio worklet node.
 3. Receive, instantiate and use the WebAssembly code in the worklet processor
 
-If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js) for how to perform step 3.
+If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L7) for how to perform step 3.
 
 # Demo
 
