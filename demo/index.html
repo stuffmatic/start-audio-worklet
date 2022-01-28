@@ -21,7 +21,7 @@
     button {
       border: none;
       padding: 10px;
-      width: 100px;
+      width: 150px;
       background-color: #e0e0e0;
     }
 
@@ -33,8 +33,11 @@
       display: none;
     }
 
-    #error-message {
+    #error-message-container {
       display: none;
+    }
+
+    #error-message {
       background-color: #f75e2c;
       padding: 20px;
       color: white;
@@ -122,8 +125,8 @@
 
     function onError(error) {
       document.getElementById("button-container").style.display = "none"
-      document.getElementById("error-message").style.display = "inherit"
-      setInnerText("error-message", error)
+      document.getElementById("error-message-container").style.display = "inherit"
+      setInnerText("error-message", "error.name: " + error.name + "\nerror.message: " + error.message)
     }
 
     function start(optionSetIndex) {
@@ -189,8 +192,13 @@
     <br>
     <button onclick="toggleTone()">Toggle tone</button>
     <div><br>Microphone level: <span id="mic-level">n/a</span></div>
+    <br>
+    <button onclick="location.reload()">Back (reloads page)</button>
   </div>
-  <p id="error-message"></p>
+  <div id="error-message-container">
+    <p id="error-message"></p>
+    <button onclick="location.reload()">Back (reloads page)</button>
+  </div>
 </body>
 
 </html>
