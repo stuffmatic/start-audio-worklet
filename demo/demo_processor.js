@@ -37,6 +37,14 @@ class DemoProcessor extends AudioWorkletProcessor {
       }
     }
 
+    if (inputs.length > 0) {
+      const inputChannels = inputs[0]
+      if (inputChannels.length > 0) {
+        const maxInputLevel = Math.max(...inputChannels[0].map((value) => Math.abs(value)))
+        this.port.postMessage({ type: "maxLevel", value: maxInputLevel })
+      }
+    }
+
     return true
   }
 }
