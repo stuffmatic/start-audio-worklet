@@ -64,7 +64,8 @@
           numberOfInputs: 1,
           numberOfOutputs: 0,
           outputChannelCount: []
-        }
+        },
+        microphoneMode: "required"
       },
       // Playback and optional recording
       {
@@ -162,7 +163,7 @@
     </div>
     <div class="demo-entry">
       <h3>Required recording only. Should fail with an error if the user denies access to the microphone.</h3>
-      <p>Does not use the microphone.</p>
+      <p>Does not output any audio.</p>
       <button onclick="start(1)">Start</button>
     </div>
     <div class="demo-entry">
