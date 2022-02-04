@@ -25,7 +25,7 @@ const options = {
   workletProcessorUrl: "my_worklet_processor.js",
   workletNodeName: "my_worklet",
   workletNodeOptions: {
-    numberOfInputs: 0,
+    numberOfInputs: 0, // Mic access is requested if this is > 0
     numberOfOutputs: 1,
     outputChannelCount: [2]
   }
