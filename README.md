@@ -41,7 +41,7 @@ startAudioWorklet(options)
   })
 ```
 
-See [`AudioWorkletOptions`](src/index.ts#L37) for allowed attributes of `options`.
+See [`AudioWorkletOptions`](src/index.ts#L55) for allowed attributes of `options`.
 
 ## Using WebAssembly
 

@@ -134,7 +134,8 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   await context.audioWorklet.addModule(options.workletProcessorUrl + urlTimestampSuffix)
   const workletNodeOptions = options.workletNodeOptions
 
-  // Add the actual sample rate to the worklet processor
+  // Add the actual sample rate to the worklet processor options
+  // so it can accessed by the processor if needed.
   workletNodeOptions.processorOptions = {
     ...workletNodeOptions.processorOptions,
     "sampleRate": context.sampleRate
