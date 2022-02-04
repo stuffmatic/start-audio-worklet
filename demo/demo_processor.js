@@ -19,19 +19,21 @@ class DemoProcessor extends AudioWorkletProcessor {
   }
 
   process(inputs, outputs, parameters) {
-    const outputChannels = outputs[0]
-    if (outputChannels.length > 0) {
-      for (let ch = 0; ch < outputChannels.length; ch++) {
-        if (ch == 0) {
-          for (let i = 0; i < outputChannels[ch].length; i++) {
-            outputChannels[ch][i] = 0.3 * this.gain * Math.sin(2 * Math.PI * this.phase)
-            this.phase += this.frequency / this.sampleRate
-            this.phase = this.phase % 1.0
-            this.gain = 0.97 * this.gain + 0.03 * this.targetGain
-          }
-        } else {
-          for (let i = 0; i < outputChannels[ch].length; i++) {
-            outputChannels[ch][i] = outputChannels[0][i]
+    if (outputs.length > 0) {
+      const outputChannels = outputs[0]
+      if (outputChannels.length > 0) {
+        for (let ch = 0; ch < outputChannels.length; ch++) {
+          if (ch == 0) {
+            for (let i = 0; i < outputChannels[ch].length; i++) {
+              outputChannels[ch][i] = 0.3 * this.gain * Math.sin(2 * Math.PI * this.phase)
+              this.phase += this.frequency / this.sampleRate
+              this.phase = this.phase % 1.0
+              this.gain = 0.97 * this.gain + 0.03 * this.targetGain
+            }
+          } else {
+            for (let i = 0; i < outputChannels[ch].length; i++) {
+              outputChannels[ch][i] = outputChannels[0][i]
+            }
           }
         }
       }

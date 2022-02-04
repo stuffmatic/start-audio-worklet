@@ -2,16 +2,19 @@
  * The browser does not support WebAssembly.
  */
 export declare class WebAssemblyNotSupportedError extends Error {
+    constructor();
 }
 /**
  * The browser does not support audio worklets.
  */
 export declare class AudioWorkletNotSupportedError extends Error {
+    constructor();
 }
 /**
  * Failed to fetch the WebAssembly module at the specified URL.
  */
 export declare class WebAssemblyFetchError extends Error {
+    constructor(url: string, httpStatus: number);
 }
 /**
  * Determines how to handle microphone access.

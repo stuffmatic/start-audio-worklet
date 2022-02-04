@@ -146,7 +146,11 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
     options.workletNodeName,
     options.workletNodeOptions
   )
-  workletNode.connect(context.destination)
+
+  // Connect outputs, if any
+  if (workletNode.numberOfOutputs > 0) {
+    workletNode.connect(context.destination)
+  }
 
   // If there is a microphone stream, connect it to the worklet node
   if (micStream != null) {
@@ -157,7 +161,8 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   // Load WebAssembly module, if specified, and send it to the worklet node
   const wasmUrl = options.wasmUrl
   if (wasmUrl) {
-    const fetchResult = await fetch(wasmUrl + urlTimestampSuffix)
+    const urlToFetch = wasmUrl + urlTimestampSuffix
+    const fetchResult = await fetch(urlToFetch)
     if (!fetchResult.ok) {
       throw new WebAssemblyFetchError(urlToFetch, fetchResult.status)
     }

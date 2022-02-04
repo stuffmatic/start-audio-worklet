@@ -56,6 +56,16 @@
           outputChannelCount: [2]
         }
       },
+      // Mic only
+      {
+        workletNodeName: "demo-processor",
+        workletProcessorUrl: "demo_processor.js",
+        workletNodeOptions: {
+          numberOfInputs: 1,
+          numberOfOutputs: 0,
+          outputChannelCount: []
+        }
+      },
       // Playback and optional recording
       {
         workletNodeName: "demo-processor",
@@ -151,19 +161,24 @@
       <button onclick="start(0)">Start</button>
     </div>
     <div class="demo-entry">
+      <h3>Required recording only. Should fail with an error if the user denies access to the microphone.</h3>
+      <p>Does not use the microphone.</p>
+      <button onclick="start(1)">Start</button>
+    </div>
+    <div class="demo-entry">
       <h3>Playback and optional recording</h3>
       <p>Should start without error if the user denies access to the microphone.</p>
-      <button onclick="start(1)">Start</button>
+      <button onclick="start(2)">Start</button>
     </div>
     <div class="demo-entry">
       <h3>Playback and required recording</h3>
       <p>Should fail with an error if the user denies access to the microphone.</p>
-      <button onclick="start(2)">Start</button>
+      <button onclick="start(3)">Start</button>
     </div>
     <div class="demo-entry">
       <h3>WebAssembly synth, optional recording. </h3>
       <p>Should start without error if the user denies access to the microphone.</p>
-      <button onclick="start(3)">Start</button>
+      <button onclick="start(4)">Start</button>
     </div>
   </div>
   <div id="synth-container">
