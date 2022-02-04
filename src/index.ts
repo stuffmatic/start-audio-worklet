@@ -1,15 +1,30 @@
 /**
  * The browser does not support WebAssembly.
  */
-export class WebAssemblyNotSupportedError extends Error {}
+export class WebAssemblyNotSupportedError extends Error {
+  constructor() {
+    super("WebAssembly is not supported in this browser.")
+    this.name = "WebAssemblyNotSupportedError"
+  }
+}
 /**
  * The browser does not support audio worklets.
  */
-export class AudioWorkletNotSupportedError extends Error {}
+export class AudioWorkletNotSupportedError extends Error {
+  constructor() {
+    super("AudioWorlket is not supported in this browser.")
+    this.name = "AudioWorkletNotSupportedError"
+  }
+}
 /**
  * Failed to fetch the WebAssembly module at the specified URL.
  */
-export class WebAssemblyFetchError extends Error {}
+export class WebAssemblyFetchError extends Error {
+  constructor(url: string, httpStatus: number) {
+    super("Fetching WebAssembly module from " + url + " failed with status " + httpStatus)
+    this.name = "WebAssemblyFetchError"
+  }
+}
 
 /**
  * Determines how to handle microphone access.
@@ -80,7 +95,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   // If WebAssembly is used, make sure it's supported by the browser
   const wasmIsSupported = typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function"
   if (!wasmIsSupported && options.wasmUrl !== undefined) {
-    throw new WebAssemblyNotSupportedError("WebAssembly is not supported in this browser")
+    throw new WebAssemblyNotSupportedError()
   }
 
   // Create web audio context
@@ -96,7 +111,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   // Make sure the browser supports audio worklets
   const audioWorkletIsSupported = context.audioWorklet !== undefined
   if (!audioWorkletIsSupported) {
-    throw new AudioWorkletNotSupportedError("AudioWorklet is not supported in this browser")
+    throw new AudioWorkletNotSupportedError()
   }
 
   // Request microphone access.
@@ -144,7 +159,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   if (wasmUrl) {
     const fetchResult = await fetch(wasmUrl + urlTimestampSuffix)
     if (!fetchResult.ok) {
-      throw new WebAssemblyFetchError("WebAssembly fetch failed with status " + fetchResult.status)
+      throw new WebAssemblyFetchError(urlToFetch, fetchResult.status)
     }
     const wasmData = await fetchResult.arrayBuffer()
     workletNode.port.postMessage({ type: 'wasmData', data: wasmData })
