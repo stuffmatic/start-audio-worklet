@@ -80,6 +80,11 @@ export interface AudioWorkletOptions {
    * @see MicrophoneMode.
    * */
   microphoneMode?: MicrophoneMode
+  /**
+   * By default, a ?t=[timestamp] suffix is added to workletProcessorUrl and wasmUrl
+   * in order to prevent caching. Set this flag to true to disable this behavior.
+   */
+  disableUrlTimestampSuffix?: boolean
 }
 
 /**
@@ -104,7 +109,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   if ((window as any).webkitAudioContext) {
     // AudioContext is undefined in Safari and old versions of Chrome
     context = new ((window as any).webkitAudioContext)(contextOptions)
-  } else {
+  } else {
     context = new AudioContext(contextOptions)
   }
 
@@ -129,9 +134,9 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
 
   // A URL suffix used to prevent caching of the worklet processor
   // and WebAssembly src.
-  const urlTimestampSuffix = "?t=" + new Date().getTime()
+  const urlSuffix = !options.disableUrlTimestampSuffix ? "?t=" + new Date().getTime() : ""
 
-  await context.audioWorklet.addModule(options.workletProcessorUrl + urlTimestampSuffix)
+  await context.audioWorklet.addModule(options.workletProcessorUrl + urlSuffix)
   const workletNodeOptions = options.workletNodeOptions
 
   // Add the actual sample rate to the worklet processor options
@@ -162,7 +167,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   // Load WebAssembly module, if specified, and send it to the worklet node
   const wasmUrl = options.wasmUrl
   if (wasmUrl) {
-    const urlToFetch = wasmUrl + urlTimestampSuffix
+    const urlToFetch = wasmUrl + urlSuffix
     const fetchResult = await fetch(urlToFetch)
     if (!fetchResult.ok) {
       throw new WebAssemblyFetchError(urlToFetch, fetchResult.status)

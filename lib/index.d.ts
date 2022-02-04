@@ -69,6 +69,11 @@ export interface AudioWorkletOptions {
      * @see MicrophoneMode.
      * */
     microphoneMode?: MicrophoneMode;
+    /**
+     * By default, a ?t=[timestamp] suffix is added to workletProcessorUrl and wasmUrl
+     * in order to prevent caching. Set this flag to true to disable this behavior.
+     */
+    disableUrlTimestampSuffix?: boolean;
 }
 /**
  * Start and create an audio worklet node.
