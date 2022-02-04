@@ -1,20 +1,20 @@
 # What is this?
 
-`audio-worklet-starter` provides a dead simple, single function API for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you don't have to.
+`start-audio-worklet` provides a dead simple, single function API for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you don't have to.
 
 # Adding the library to your project
 
 ## As an ES module
 
-Add `audio-worklet-starter` to your `package.json` and import the library like so:
+Add `start-audio-worklet` to your `package.json` and import the library like so:
 
-```import { startAudioWorklet } from "audio-worklet-starter"```
+```import { startAudioWorklet } from "start-audio-worklet"```
 
 ## As a standalone javascript file
 
-The standalone version [`lib/audio_worklet_starter.js`](lib/audio_worklet_starter.js) can be used directly in an HTML file by adding a script tag like this
+The standalone version [`lib/start_audio_worklet.js`](lib/start_audio_worklet.js) can be used directly in an HTML file by adding a script tag like this
 
-```<script src="/some/url/to/audio_worklet_starter.js"></script>```
+```<script src="/some/url/to/start_audio_worklet.js"></script>```
 
 # Usage
 

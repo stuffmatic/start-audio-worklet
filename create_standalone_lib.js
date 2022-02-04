@@ -4,4 +4,4 @@ const fs = require("fs")
 // the export keywords 😬
 const libSrc = fs.readFileSync("lib/index.js").toString()
 const standaloneSrc = libSrc.replace(/export /g, "")
-fs.writeFileSync("lib/audio_worklet_starter.js", standaloneSrc)
+fs.writeFileSync("lib/start_audio_worklet.js", standaloneSrc)
