@@ -33,15 +33,16 @@ export enum MicrophoneMode {
   /**
    * Mic access is requested if the number of inputs
    * specified in the worklet node options is greater than zero.
-   * No error is thrown if access is denied.
+   * An error is thrown if access is denied.
+   * This is the default mode.
    */
-  optional = "optional",
+  required = "required",
   /**
    * Mic access is requested if the number of inputs
    * specified in the worklet node options is greater than zero.
-   * An error is thrown if access is denied.
+   * No error is thrown if access is denied.
    */
-  required = "required",
+  optional = "optional",
   /**
    * Mic access is not requested, regardless of the number of inputs
    * specified in the worklet node options.
@@ -76,7 +77,7 @@ export interface AudioWorkletOptions {
    */
   wasmUrl?: string
   /**
-   * Determines how to handle microphone access. Defaults to "optional" if not specified.
+   * Determines how to handle microphone access. Defaults to "required" if not specified.
    * @see MicrophoneMode.
    * */
   microphoneMode?: MicrophoneMode
@@ -95,7 +96,7 @@ export interface AudioWorkletOptions {
 export async function startAudioWorklet(options: AudioWorkletOptions): Promise<AudioWorkletNode> {
   const defaultSampleRate = 44100;
   const sampleRate = options.sampleRate ?? defaultSampleRate
-  const microphoneMode = options.microphoneMode ?? MicrophoneMode.optional
+  const microphoneMode = options.microphoneMode ?? MicrophoneMode.required
 
   // If WebAssembly is used, make sure it's supported by the browser
   const wasmIsSupported = typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function"

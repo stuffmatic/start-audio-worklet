@@ -25,7 +25,7 @@ const options = {
   workletProcessorUrl: "my_worklet_processor.js",
   workletNodeName: "my_worklet",
   workletNodeOptions: {
-    numberOfInputs: 0, // Mic access is requested if this is > 0
+    numberOfInputs: 0,
     numberOfOutputs: 1,
     outputChannelCount: [2]
   }
@@ -41,7 +41,11 @@ startAudioWorklet(options)
   })
 ```
 
-See [`AudioWorkletOptions`](src/index.ts#L55) for allowed attributes of `options`.
+See [`AudioWorkletOptions`](src/index.ts#L56) for allowed attributes of `options`.
+
+## Microphone access
+
+By default, if `numberOfInputs` is set to a number greater than zero, mic access is requested and an error is thrown if access if denied. The `microphoneMode` attribute can be used to change this behaviour, see [`MicrophoneMode`](src/index.ts#L32).
 
 ## Using WebAssembly
 

@@ -23,15 +23,16 @@ export declare enum MicrophoneMode {
     /**
      * Mic access is requested if the number of inputs
      * specified in the worklet node options is greater than zero.
-     * No error is thrown if access is denied.
+     * An error is thrown if access is denied.
+     * This is the default mode.
      */
-    optional = "optional",
+    required = "required",
     /**
      * Mic access is requested if the number of inputs
      * specified in the worklet node options is greater than zero.
-     * An error is thrown if access is denied.
+     * No error is thrown if access is denied.
      */
-    required = "required",
+    optional = "optional",
     /**
      * Mic access is not requested, regardless of the number of inputs
      * specified in the worklet node options.
@@ -65,7 +66,7 @@ export interface AudioWorkletOptions {
      */
     wasmUrl?: string;
     /**
-     * Determines how to handle microphone access. Defaults to "optional" if not specified.
+     * Determines how to handle microphone access. Defaults to "required" if not specified.
      * @see MicrophoneMode.
      * */
     microphoneMode?: MicrophoneMode;
