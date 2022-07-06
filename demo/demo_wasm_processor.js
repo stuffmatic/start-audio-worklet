@@ -2,6 +2,7 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
   constructor(options) {
     super(options)
 
+    // Instantiate the WebAssembly module loaded in the main js code.
     const wasmData = options.processorOptions.wasmData
     WebAssembly.instantiate(wasmData).then(wasm => {
       this.onWasmInstantiated(wasm.instance)
