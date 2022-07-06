@@ -72,8 +72,8 @@ export interface AudioWorkletOptions {
    */
   sampleRate?: number
   /**
-   * An optional URL to a WebAssembly module to be loaded and sent to the worklet processor
-   * via its message port. The message has the form `{ "type": "wasmData", "data": ... }`.
+   * An optional URL to a WebAssembly module to load. The module data is stored
+   * in the `wasmData` attribute of the options object passed to the processor's constructor.
    */
   wasmUrl?: string
   /**
@@ -120,8 +120,8 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
     throw new AudioWorkletNotSupportedError()
   }
 
-  // Request microphone access.
-  let micStream = null
+  // Request microphone access?
+  let micStream: MediaStream | null = null
   const atLeastOneInputIsRequested = options.workletNodeOptions.numberOfInputs ?? 0 > 0
   if (atLeastOneInputIsRequested && microphoneMode != MicrophoneMode.disabled) {
     try {
@@ -140,11 +140,24 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   await context.audioWorklet.addModule(options.workletProcessorUrl + urlSuffix)
   const workletNodeOptions = options.workletNodeOptions
 
+  // Load WebAssembly module, if specified.
+  const wasmUrl = options.wasmUrl
+  let wasmData: ArrayBuffer | null = null
+  if (wasmUrl) {
+    const urlToFetch = wasmUrl + urlSuffix
+    const fetchResult = await fetch(urlToFetch)
+    if (!fetchResult.ok) {
+      throw new WebAssemblyFetchError(urlToFetch, fetchResult.status)
+    }
+    wasmData = await fetchResult.arrayBuffer()
+  }
+
   // Add the actual sample rate to the worklet processor options
-  // so it can accessed by the processor if needed.
+  // so it can be accessed by the processor if needed.
   workletNodeOptions.processorOptions = {
     ...workletNodeOptions.processorOptions,
-    "sampleRate": context.sampleRate
+    "sampleRate": context.sampleRate,
+    wasmData
   }
 
   // Create audio worklet node
@@ -163,18 +176,6 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   if (micStream != null) {
     const micSource = context.createMediaStreamSource(micStream)
     micSource.connect(workletNode)
-  }
-
-  // Load WebAssembly module, if specified, and send it to the worklet node
-  const wasmUrl = options.wasmUrl
-  if (wasmUrl) {
-    const urlToFetch = wasmUrl + urlSuffix
-    const fetchResult = await fetch(urlToFetch)
-    if (!fetchResult.ok) {
-      throw new WebAssemblyFetchError(urlToFetch, fetchResult.status)
-    }
-    const wasmData = await fetchResult.arrayBuffer()
-    workletNode.port.postMessage({ type: 'wasmData', data: wasmData })
   }
 
   return workletNode

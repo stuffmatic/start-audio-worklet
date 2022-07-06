@@ -61,8 +61,8 @@ export interface AudioWorkletOptions {
      */
     sampleRate?: number;
     /**
-     * An optional URL to a WebAssembly module to be loaded and sent to the worklet processor
-     * via its message port. The message has the form `{ "type": "wasmData", "data": ... }`.
+     * An optional URL to a WebAssembly module to load. The module data is stored
+     * in the `wasmData` attribute of the options object passed to the processor's constructor.
      */
     wasmUrl?: string;
     /**

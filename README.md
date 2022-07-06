@@ -45,17 +45,17 @@ See [`AudioWorkletOptions`](src/index.ts#L56) for allowed attributes of `options
 
 ## Microphone access
 
-By default, if `numberOfInputs` is set to a number greater than zero, mic access is requested and an error is thrown if access if denied. The `microphoneMode` attribute can be used to change this behaviour, see [`MicrophoneMode`](src/index.ts#L32).
+By default, if `numberOfInputs` is set to a number greater than zero, mic access is requested and an error is thrown if access is denied. The `microphoneMode` attribute can be used to change this behavior, see [`MicrophoneMode`](src/index.ts#L32).
 
 ## Using WebAssembly
 
 Running WebAssembly code in audio worklets is a three step process:
 
 1. Import the WebAssembly module from your main javascript code
-2. Send the result to the worklet using the `port` of the audio worklet node.
-3. Receive, instantiate and use the WebAssembly code in the worklet processor
+2. Pass the result to the worklet processor
+3. Instantiate and use the WebAssembly code in the worklet processor
 
-If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L7) for how to perform step 3.
+If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L5) for how to perform step 3.
 
 # Demo
 

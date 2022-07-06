@@ -2,14 +2,15 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
   constructor(options) {
     super(options)
 
+    const wasmData = options.processorOptions.wasmData
+    WebAssembly.instantiate(wasmData).then(wasm => {
+      this.onWasmInstantiated(wasm.instance)
+    }).catch((error) => {
+      console.error(error)
+    })
+
     this.port.onmessage = e => {
       switch (e.data.type) {
-        case "wasmData": {
-          WebAssembly.instantiate(e.data.data).then(wasm => {
-            this.onWasmInstantiated(wasm.instance)
-          })
-          break
-        }
         case "toggleTone": {
           if (this.wasm) {
             this.wasm.exports.toggle_tone()
@@ -42,9 +43,6 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
   }
 
   process(inputs, outputs, parameters) {
-    if (!this.wasm) {
-      return true
-    }
     if (inputs.length > 0) {
       const inputChannels = inputs[0]
       if (inputChannels.length > 0) {
