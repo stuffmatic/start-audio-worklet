@@ -44,6 +44,10 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
   }
 
   process(inputs, outputs, parameters) {
+    if (!this.wasm) {
+      return true
+    }
+
     if (inputs.length > 0) {
       const inputChannels = inputs[0]
       if (inputChannels.length > 0) {
