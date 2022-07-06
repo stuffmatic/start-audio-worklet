@@ -113,6 +113,8 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   } else {
     context = new AudioContext(contextOptions)
   }
+  // Make sure the context is running (starts out suspended in Safari)
+  context.resume()
 
   // Make sure the browser supports audio worklets
   const audioWorkletIsSupported = context.audioWorklet !== undefined
