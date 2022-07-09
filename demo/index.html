@@ -97,7 +97,8 @@
           numberOfOutputs: 1,
           outputChannelCount: [2]
         },
-        wasmUrl: "demo_synth.wasm"
+        wasmUrl: "demo_synth.wasm",
+        microphoneMode: "optional"
       }
     ]
 
@@ -162,8 +163,8 @@
       <button onclick="start(0)">Start</button>
     </div>
     <div class="demo-entry">
-      <h3>Required recording only. Should fail with an error if the user denies access to the microphone.</h3>
-      <p>Does not output any audio.</p>
+      <h3>Required recording only.</h3>
+      <p>Does not output any audio. Should fail with an error if the user denies access to the microphone.</p>
       <button onclick="start(1)">Start</button>
     </div>
     <div class="demo-entry">
