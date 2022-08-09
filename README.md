@@ -69,6 +69,6 @@ To allow for microphone access, the demo page is served over https using a self 
 * `brave://flags/#allow-insecure-localhost` (for Brave)
 * `chrome://flags/#allow-insecure-localhost` (for Chrome)
 
-## Rust demo synth
+## Rust demo
 
-The [`demo_synth`](demo_synth) folder contains a minimal demo synth written in Rust. This synth is used in the WebAssembly demo.
+The [`tone_generator`](tone_generator) folder contains a simple tone generator written in Rust, which is used in the WebAssembly demo.

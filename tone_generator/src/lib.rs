@@ -3,7 +3,7 @@ extern crate lazy_static;
 
 use std::sync::Mutex;
 
-struct DemoSynth {
+struct ToneGenerator {
     phase: f32,
     frequency: f32,
     target_gain: f32,
@@ -11,9 +11,9 @@ struct DemoSynth {
     sample_rate: f32,
 }
 
-impl DemoSynth {
+impl ToneGenerator {
     fn new(sample_rate: f32) -> Self {
-        DemoSynth {
+        ToneGenerator {
             phase: 0.0,
             frequency: 440.0,
             target_gain: 0.0,
@@ -52,7 +52,7 @@ impl DemoSynth {
 }
 
 lazy_static! {
-    static ref SYNTH: Mutex<DemoSynth> = Mutex::new(DemoSynth::new(44100.));
+    static ref TONE_GENERATOR: Mutex<ToneGenerator> = Mutex::new(ToneGenerator::new(44100.));
 }
 
 #[no_mangle]
@@ -65,21 +65,21 @@ pub extern "C" fn allocate_f32_array(size: usize) -> *mut f32 {
 
 #[no_mangle]
 pub extern "C" fn render(raw_buffer: *mut f32, buffer_size: usize) {
-    let mut synth = SYNTH.lock().unwrap();
+    let mut generator = TONE_GENERATOR.lock().unwrap();
 
     let buffer: &mut [f32] = unsafe { std::slice::from_raw_parts_mut(raw_buffer, buffer_size) };
-    synth.render(buffer);
+    generator.render(buffer);
 }
 
 #[no_mangle]
 pub extern "C" fn buffer_max_level(raw_buffer: *const f32, buffer_size: usize) -> f32 {
-    let mut synth = SYNTH.lock().unwrap();
+    let mut generator = TONE_GENERATOR.lock().unwrap();
     let buffer: &[f32] = unsafe { std::slice::from_raw_parts(raw_buffer, buffer_size) };
-    synth.buffer_max_level(buffer)
+    generator.buffer_max_level(buffer)
 }
 
 #[no_mangle]
 pub extern "C" fn toggle_tone() {
-    let mut synth = SYNTH.lock().unwrap();
-    synth.toggle_tone()
+    let mut generator = TONE_GENERATOR.lock().unwrap();
+    generator.toggle_tone()
 }

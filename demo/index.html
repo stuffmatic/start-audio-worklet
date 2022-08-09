@@ -29,7 +29,7 @@
       display: none
     }
 
-    #synth-container {
+    #tone-generator-container {
       display: none;
     }
 
@@ -97,7 +97,7 @@
           numberOfOutputs: 1,
           outputChannelCount: [2]
         },
-        wasmUrl: "demo_synth.wasm",
+        wasmUrl: "tone_generator.wasm",
         microphoneMode: "optional"
       }
     ]
@@ -116,7 +116,7 @@
 
     function onWorkletNodeCreated(node) {
       document.getElementById("button-container").style.display = "none"
-      document.getElementById("synth-container").style.display = "inherit"
+      document.getElementById("tone-generator-container").style.display = "inherit"
       workletNode = node
       workletNode.port.onmessage = m => {
         micLevelElement.innerText = m.data.value.toFixed(3)
@@ -178,12 +178,12 @@
       <button onclick="start(3)">Start</button>
     </div>
     <div class="demo-entry">
-      <h3>WebAssembly synth, optional recording. </h3>
+      <h3>WebAssembly tone generator, optional recording. </h3>
       <p>Should start without error if the user denies access to the microphone.</p>
       <button onclick="start(4)">Start</button>
     </div>
   </div>
-  <div id="synth-container">
+  <div id="tone-generator-container">
     <table>
       <tr>
         <td>Context state</td>

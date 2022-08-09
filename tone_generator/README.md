@@ -1,6 +1,6 @@
-# Rust demo synth
+# Rust demo tone generator
 
-A simple demo synth written in Rust, which can be compiled to a WebAssembly module and used in audio worklets.
+A simple tone generator written in Rust, which can be compiled to a WebAssembly module and used in audio worklets.
 
 Building a WebAssembly module requires the `wasm32-unknown-unknown` target. Install it with
 `rustup target add wasm32-unknown-unknown`
