@@ -1,6 +1,6 @@
 # What is this?
 
-`start-audio-worklet` provides a dead simple, single function API for creating and starting [audio worklets](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provide low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you don't have to.
+`start-audio-worklet` provides a dead simple, single function API for creating and starting an [audio worklet node](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provides low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you don't have to.
 
 # Adding the library to your project
 
