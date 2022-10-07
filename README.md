@@ -2,6 +2,8 @@
 
 `start-audio-worklet` provides a dead simple, single function API for creating and starting an [audio worklet node](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode), which provides low latency audio processing in [modern web browsers](https://caniuse.com/?search=AudioWorklet). It takes care of requesting microphone access, error handling and browser specific quirks so you don't have to.
 
+A live demo can be found [here](https://stuffmatic.github.io/start-audio-worklet/).
+
 # Adding the library to your project
 
 ## As an ES module
@@ -43,6 +45,8 @@ startAudioWorklet(options)
 
 See [`AudioWorkletOptions`](src/index.ts#L56) for allowed attributes of `options`.
 
+⚠️ __Important:__ Chrome (and possibly other browsers) won't allow playback until the user has interacted with the page, so `startAudioWorklet` should be called in response to a button press, for example. Calling it on page load won't work.
+
 ## Microphone access
 
 By default, if `numberOfInputs` is set to a number greater than zero, mic access is requested and an error is thrown if access is denied. The `microphoneMode` attribute can be used to change this behavior, see [`MicrophoneMode`](src/index.ts#L32).
@@ -55,11 +59,13 @@ Running WebAssembly code in audio worklets is a three step process:
 2. Pass the result to the worklet processor
 3. Instantiate and use the WebAssembly code in the worklet processor
 
-If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L5) for how to perform step 3.
+If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L5) for how to perform step 3. 
 
-# Demo
+The [`tone_generator`](tone_generator) folder contains a simple tone generator written in Rust, which is used in the WebAssembly demo.
 
-To run the live demo
+## Running the live demo locally
+
+To run the live demo on your local machine
 
 * Run `yarn run demo` to start the demo server
 * Open [https://localhost:8000/demo](https://localhost:8000/demo) in a browser
@@ -68,7 +74,3 @@ To allow for microphone access, the demo page is served over https using a self 
 
 * `brave://flags/#allow-insecure-localhost` (for Brave)
 * `chrome://flags/#allow-insecure-localhost` (for Chrome)
-
-## Rust demo
-
-The [`tone_generator`](tone_generator) folder contains a simple tone generator written in Rust, which is used in the WebAssembly demo.
