@@ -63,9 +63,9 @@ If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1
 
 The [`tone_generator`](tone_generator) folder contains a simple tone generator written in Rust, which is used in the WebAssembly demo.
 
-## Running the live demo locally
+# Running the live demo locally
 
-To run the live demo on your local machine
+To run the [live demo](https://stuffmatic.github.io/start-audio-worklet/) on your local machine
 
 * Run `yarn run demo` to start the demo server
 * Open [https://localhost:8000/demo](https://localhost:8000/demo) in a browser
