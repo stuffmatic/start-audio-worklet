@@ -122,7 +122,14 @@
         micLevelElement.innerText = m.data.value.toFixed(3)
       }
 
-      setInnerText("context-state", workletNode.context.state)
+      const refreshContextStateLabel = () => {
+        setInnerText("context-state", workletNode.context.state)
+      }
+      workletNode.context.onstatechange = () => {
+        refreshContextStateLabel()
+      };
+
+      refreshContextStateLabel()
       setInnerText("sample-rate", workletNode.context.sampleRate)
       setInnerText("latency", workletNode.context.baseLatency + " s")
       setInnerText("num-inputs", workletNode.numberOfInputs)
