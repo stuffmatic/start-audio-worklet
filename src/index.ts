@@ -72,6 +72,12 @@ export interface AudioWorkletOptions {
    */
   sampleRate?: number
   /**
+   * The `latencyHint` parameter to pass to the AudioContext constructor.
+   * Defaults to "interactive" if not specified.
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/AudioContext#parameters
+   */
+  latencyHint?: number | AudioContextLatencyCategory
+  /**
    * An optional URL to a WebAssembly module to load. The module data is stored
    * in the `wasmData` attribute of the options object passed to the processor's constructor.
    */
@@ -94,10 +100,6 @@ export interface AudioWorkletOptions {
  * @returns A promise that resolves with the created AudioWorkletNode.
  */
 export async function startAudioWorklet(options: AudioWorkletOptions): Promise<AudioWorkletNode> {
-  const defaultSampleRate = 44100;
-  const sampleRate = options.sampleRate ?? defaultSampleRate
-  const microphoneMode = options.microphoneMode ?? MicrophoneMode.required
-
   // If WebAssembly is used, make sure it's supported by the browser
   const wasmIsSupported = typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function"
   if (!wasmIsSupported && options.wasmUrl !== undefined) {
@@ -105,7 +107,9 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   }
 
   // Create web audio context
-  let contextOptions: AudioContextOptions = { sampleRate, latencyHint: "interactive" }
+  const sampleRate = options.sampleRate ?? 44100 // 44.1kHz sample rate by default
+  const latencyHint = options.latencyHint ?? "interactive"
+  let contextOptions: AudioContextOptions = { sampleRate, latencyHint }
   let context: any
   if ((window as any).webkitAudioContext) {
     // AudioContext is undefined in Safari and old versions of Chrome
@@ -123,6 +127,7 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   }
 
   // Request microphone access?
+  const microphoneMode = options.microphoneMode ?? MicrophoneMode.required
   let micStream: MediaStream | null = null
   const atLeastOneInputIsRequested = options.workletNodeOptions.numberOfInputs ?? 0 > 0
   if (atLeastOneInputIsRequested && microphoneMode != MicrophoneMode.disabled) {

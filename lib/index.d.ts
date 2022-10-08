@@ -61,6 +61,12 @@ export interface AudioWorkletOptions {
      */
     sampleRate?: number;
     /**
+     * The `latencyHint` parameter to pass to the AudioContext constructor.
+     * Defaults to "interactive" if not specified.
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/AudioContext#parameters
+     */
+    latencyHint?: number | AudioContextLatencyCategory;
+    /**
      * An optional URL to a WebAssembly module to load. The module data is stored
      * in the `wasmData` attribute of the options object passed to the processor's constructor.
      */
