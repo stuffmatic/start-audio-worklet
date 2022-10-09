@@ -85,7 +85,7 @@ export interface StartAudioWorkletOptions {
 }
 /**
  * Start and create an audio worklet node.
- * @param options See AudioWorkletOptions
+ * @param options See StartAudioWorkletOptions
  * @returns A promise that resolves with the created AudioWorkletNode.
  */
 export declare function startAudioWorklet(options: StartAudioWorkletOptions): Promise<AudioWorkletNode>;
