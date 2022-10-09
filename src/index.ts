@@ -63,18 +63,18 @@ export interface AudioWorkletOptions {
    */
   workletProcessorUrl: string
   /**
-   * Options passed to the AudioWorkletNode constructor.
+   * Options passed to the `AudioWorkletNode` constructor.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode/AudioWorkletNode
    */
   workletNodeOptions: AudioWorkletNodeOptions
   /**
-   * Used to override the default options passed to the AudioContext constructor. Optional.
+   * Used to override the default options passed to the `AudioContext` constructor. Optional.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/AudioContext#parameters
    */
   audioContextOptions?: AudioContextOptions
   /**
-   * An optional set of parameters to pass when creating the microphone input
-   * stream using getUserMedia. By default, no options are passed.
+   * Options to pass when creating the microphone input
+   * stream using `getUserMedia`. If not specified, no options are passed.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#properties_of_audio_tracks
    */
   microphoneStreamOptions?: MediaTrackConstraints
@@ -84,12 +84,12 @@ export interface AudioWorkletOptions {
    */
   wasmUrl?: string
   /**
-   * Determines how to handle microphone access. Defaults to "required" if not specified.
+   * Determines how to handle microphone access. Defaults to `required` if not specified.
    * @see MicrophoneMode.
    * */
   microphoneMode?: MicrophoneMode
   /**
-   * By default, a ?t=[timestamp] suffix is added to workletProcessorUrl and wasmUrl
+   * By default, a `?t=[timestamp]` suffix is added to `workletProcessorUrl` and `wasmUrl`
    * in order to prevent caching. Set this flag to true to disable this behavior.
    */
   disableUrlTimestampSuffix?: boolean
