@@ -53,7 +53,7 @@ export enum MicrophoneMode {
 /**
  * Options passed to startAudioWorklet.
  */
-export interface AudioWorkletOptions {
+export interface StartAudioWorkletOptions {
   /**
    * The name used when registering the worklet processor with `registerProcessor`.
    */
@@ -100,7 +100,7 @@ export interface AudioWorkletOptions {
  * @param options See AudioWorkletOptions
  * @returns A promise that resolves with the created AudioWorkletNode.
  */
-export async function startAudioWorklet(options: AudioWorkletOptions): Promise<AudioWorkletNode> {
+export async function startAudioWorklet(options: StartAudioWorkletOptions): Promise<AudioWorkletNode> {
   // If WebAssembly is used, make sure it's supported by the browser
   const wasmIsSupported = typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function"
   if (!wasmIsSupported && options.wasmUrl !== undefined) {

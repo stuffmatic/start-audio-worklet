@@ -42,7 +42,7 @@ export declare enum MicrophoneMode {
 /**
  * Options passed to startAudioWorklet.
  */
-export interface AudioWorkletOptions {
+export interface StartAudioWorkletOptions {
     /**
      * The name used when registering the worklet processor with `registerProcessor`.
      */
@@ -88,4 +88,4 @@ export interface AudioWorkletOptions {
  * @param options See AudioWorkletOptions
  * @returns A promise that resolves with the created AudioWorkletNode.
  */
-export declare function startAudioWorklet(options: AudioWorkletOptions): Promise<AudioWorkletNode>;
+export declare function startAudioWorklet(options: StartAudioWorkletOptions): Promise<AudioWorkletNode>;
