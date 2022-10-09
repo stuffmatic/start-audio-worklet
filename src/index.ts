@@ -68,15 +68,16 @@ export interface AudioWorkletOptions {
    */
   workletNodeOptions: AudioWorkletNodeOptions
   /**
-   * The desired sample rate. Defaults to 44100 Hz if not specified
-   */
-  sampleRate?: number
-  /**
-   * The `latencyHint` parameter to pass to the AudioContext constructor.
-   * Defaults to "interactive" if not specified.
+   * Used to override the default options passed to the AudioContext constructor. Optional.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/AudioContext#parameters
    */
-  latencyHint?: number | AudioContextLatencyCategory
+  audioContextOptions?: AudioContextOptions
+  /**
+   * An optional set of parameters to pass when creating the microphone input
+   * stream using getUserMedia. By default, no options are passed.
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#properties_of_audio_tracks
+   */
+  microphoneStreamOptions?: MediaTrackConstraints
   /**
    * An optional URL to a WebAssembly module to load. The module data is stored
    * in the `wasmData` attribute of the options object passed to the processor's constructor.
@@ -107,9 +108,10 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   }
 
   // Create web audio context
-  const sampleRate = options.sampleRate ?? 44100 // 44.1kHz sample rate by default
-  const latencyHint = options.latencyHint ?? "interactive"
-  let contextOptions: AudioContextOptions = { sampleRate, latencyHint }
+  let contextOptions: AudioContextOptions = { sampleRate: 44100, latencyHint: "interactive" }
+  if (options.audioContextOptions !== undefined) {
+    contextOptions = { ...contextOptions, ...options.audioContextOptions}
+  }
   let context: any
   if ((window as any).webkitAudioContext) {
     // AudioContext is undefined in Safari and old versions of Chrome
@@ -132,7 +134,8 @@ export async function startAudioWorklet(options: AudioWorkletOptions): Promise<A
   const atLeastOneInputIsRequested = options.workletNodeOptions.numberOfInputs ?? 0 > 0
   if (atLeastOneInputIsRequested && microphoneMode != MicrophoneMode.disabled) {
     try {
-      micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      const audioConstraints = options.microphoneStreamOptions ?? true
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints, video: false })
     } catch (e) {
       if (microphoneMode == MicrophoneMode.required) {
         throw e

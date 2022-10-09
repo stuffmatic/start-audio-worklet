@@ -57,15 +57,16 @@ export interface AudioWorkletOptions {
      */
     workletNodeOptions: AudioWorkletNodeOptions;
     /**
-     * The desired sample rate. Defaults to 44100 Hz if not specified
-     */
-    sampleRate?: number;
-    /**
-     * The `latencyHint` parameter to pass to the AudioContext constructor.
-     * Defaults to "interactive" if not specified.
+     * Used to override the default options passed to the AudioContext constructor. Optional.
      * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/AudioContext#parameters
      */
-    latencyHint?: number | AudioContextLatencyCategory;
+    audioContextOptions?: AudioContextOptions;
+    /**
+     * An optional set of parameters to pass when creating the microphone input
+     * stream using getUserMedia. By default, no options are passed.
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#properties_of_audio_tracks
+     */
+    microphoneStreamOptions?: MediaTrackConstraints;
     /**
      * An optional URL to a WebAssembly module to load. The module data is stored
      * in the `wasmData` attribute of the options object passed to the processor's constructor.
