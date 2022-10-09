@@ -43,7 +43,7 @@ startAudioWorklet(options)
   })
 ```
 
-See [`StartAudioWorkletOptions`](src/index.ts#L56) for allowed attributes of `options`.
+See [`StartAudioWorkletOptions`](lib/index.d.ts#L45) for allowed attributes of `options`.
 
 ⚠️ __Note:__ Some browsers, for example Firefox and Chrome, won't allow an audio context to start automatically without user interaction. This means that `startAudioWorklet` should be called in response to a button press, for example. In these browsers, calling it on page load requires an additional `resume()` call on the worklet's audio context when the user interacts with the page.
 
