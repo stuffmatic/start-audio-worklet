@@ -45,7 +45,8 @@ startAudioWorklet(options)
 
 See [`AudioWorkletOptions`](src/index.ts#L56) for allowed attributes of `options`.
 
-⚠️ __Important:__ Chrome (and possibly other browsers) won't allow playback until the user has interacted with the page, so `startAudioWorklet` should be called in response to a button press, for example. Calling it on page load won't work.
+
+⚠️ __Note:__ Some browsers, for example Firefox and Chrome, won't allow an audio context to start automatically without user interaction. This means that `startAudioWorklet` should be called in response to a button press, for example. In these browsers, calling it on page load requires an additional call to resume the audio context on user interaction.
 
 ## Microphone access
 
@@ -59,7 +60,7 @@ Running WebAssembly code in audio worklets is a three step process:
 2. Pass the result to the worklet processor
 3. Instantiate and use the WebAssembly code in the worklet processor
 
-If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L5) for how to perform step 3. 
+If `wasmUrl` is specified in the options passed to `startAudioWorklet`,  steps 1 and 2 are handled automatically. See the [WebAssembly demo source](demo/demo_wasm_processor.js#L5) for how to perform step 3.
 
 The [`tone_generator`](tone_generator) folder contains a simple tone generator written in Rust, which is used in the WebAssembly demo.
 
