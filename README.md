@@ -45,11 +45,11 @@ startAudioWorklet(options)
 
 See [`StartAudioWorkletOptions`](lib/index.d.ts#L45) for allowed attributes of `options`.
 
-⚠️ __Note:__ Some browsers, for example Firefox and Chrome, won't allow an audio context to start automatically without user interaction. This means that `startAudioWorklet` should be called in response to a button press, for example. In these browsers, calling it on page load requires an additional `resume()` call on the worklet's audio context when the user interacts with the page.
+⚠️ __Note:__ Some browsers, for example Firefox and Chrome, won't allow an audio context to start automatically without user interaction. This means that `startAudioWorklet` should be called in response to a button press, for example. In these browsers, calling it on page load requires an additional `resume()` call on the worklet node's audio context when the user interacts with the page.
 
 ## Microphone access
 
-By default, if `numberOfInputs` is set to a number greater than zero, mic access is requested and an error is thrown if access is denied. The `microphoneMode` attribute can be used to change this behavior, see [`MicrophoneMode`](src/index.ts#L32).
+By default, if `numberOfInputs` is set to a number greater than zero, microphone access is requested and an error is thrown if access is denied. The `microphoneMode` attribute can be used to change this behavior, see [`MicrophoneMode`](lib/index.d.ts#L22).
 
 ## Using WebAssembly
 
