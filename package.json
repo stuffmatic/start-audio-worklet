@@ -7,6 +7,14 @@
   "dependencies": {
 
   },
+  "homepage": "https://github.com/stuffmatic/start-audio-worklet",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stuffmatic/start-audio-worklet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stuffmatic/start-audio-worklet/issues"
+  },
   "files": [
     "lib/"
   ],
