@@ -65,7 +65,7 @@ The [`tone_generator`](tone_generator) folder contains a simple tone generator w
 
 ## Tweaking performance
 
-Unfortunately, audio worklet performance is not consistent across browsers, but it's sometimes possible to pass additional options to improve things. Some info about how to reduce latency can be found [here](https://www.jefftk.com/p/audioworklet-latency-firefox-vs-chrome). If you need unprocessed microphone input without echo cancellation etc, you might find [this Stack Overflow thread](https://stackoverflow.com/questions/61399683/getusermedia-how-can-i-improve-audio-quality-how-can-i-make-audio-to-stop-echoi) helful.
+Unfortunately, audio worklet performance is not consistent across browsers, but it's sometimes possible to pass additional options to improve things. Some info about how to reduce latency can be found [here](https://www.jefftk.com/p/audioworklet-latency-firefox-vs-chrome). If you need unprocessed microphone input without echo cancellation etc, you might find [this Stack Overflow thread](https://stackoverflow.com/questions/61399683/getusermedia-how-can-i-improve-audio-quality-how-can-i-make-audio-to-stop-echoi) helpful.
 
 # Running the live demo locally
 
