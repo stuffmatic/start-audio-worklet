@@ -1,6 +1,6 @@
 {
   "name": "start-audio-worklet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "description": "A dead simple, single function API for creating and starting a web audio worklet.",
   "main": "lib/index.js",
