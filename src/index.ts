@@ -108,7 +108,7 @@ export async function startAudioWorklet(options: StartAudioWorkletOptions): Prom
   }
 
   // Create web audio context
-  let contextOptions: AudioContextOptions = { sampleRate: 44100, latencyHint: "interactive" }
+  let contextOptions: AudioContextOptions = { latencyHint: "interactive" }
   if (options.audioContextOptions !== undefined) {
     contextOptions = { ...contextOptions, ...options.audioContextOptions}
   }
