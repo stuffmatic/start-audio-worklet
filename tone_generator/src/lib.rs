@@ -1,58 +1,21 @@
-#[macro_use]
-extern crate lazy_static;
+use core::cell::UnsafeCell;
+mod tone_generator;
+use tone_generator::ToneGenerator;
 
-use std::sync::Mutex;
+// A wrapper around UnsafeCell used to tell the compiler
+// that we'll manually ensure that references to the wrapped
+// object are handled properly in a thread safe manner.
+struct SyncUnsafeCell<T>(UnsafeCell<T>);
+unsafe impl<T> Sync for SyncUnsafeCell<T> {}
 
-struct ToneGenerator {
-    phase: f32,
-    frequency: f32,
-    target_gain: f32,
-    gain: f32,
-    sample_rate: f32,
-}
+// A statically allocated global tone generator instance.
+static TONE_GENERATOR: SyncUnsafeCell<ToneGenerator> = SyncUnsafeCell(UnsafeCell::new(ToneGenerator::new()));
 
-impl ToneGenerator {
-    fn new(sample_rate: f32) -> Self {
-        ToneGenerator {
-            phase: 0.0,
-            frequency: 440.0,
-            target_gain: 0.0,
-            gain: 0.0,
-            sample_rate,
-        }
-    }
-
-    fn render(&mut self, buffer: &mut [f32]) {
-        for sample in buffer.iter_mut() {
-            *sample = 0.3 * self.gain * (2.0 * std::f32::consts::PI * self.phase).sin();
-            self.phase += self.frequency / self.sample_rate;
-            self.phase = self.phase.rem_euclid(1.0);
-            self.gain = 0.97 * self.gain + 0.03 * self.target_gain;
-        }
-    }
-
-    fn buffer_max_level(&mut self, buffer: &[f32]) -> f32 {
-        let mut max = 0.0;
-        for sample in buffer {
-            let abs = sample.abs();
-            if abs > max {
-                max = abs
-            }
-        }
-        max
-    }
-
-    fn toggle_tone(&mut self) {
-        self.target_gain = if self.target_gain > 0. {
-            0.
-        } else {
-            1.
-        }
-    }
-}
-
-lazy_static! {
-    static ref TONE_GENERATOR: Mutex<ToneGenerator> = Mutex::new(ToneGenerator::new(44100.));
+/// Unsafely acquire a mutable reference to the global tone generator instance.
+fn tone_generator_mut_ref() -> &'static mut ToneGenerator {
+    // ⚠️ IT'S UP TO YOU TO ENSURE THERE IS NEVER
+    // ⚠️ MORE THAN ONE ACTIVE REFERENCE AT ANY GIVEN MOMENT.
+    unsafe { &mut *TONE_GENERATOR.0.get() }
 }
 
 #[no_mangle]
@@ -64,8 +27,14 @@ pub extern "C" fn allocate_f32_array(size: usize) -> *mut f32 {
 }
 
 #[no_mangle]
+pub extern "C" fn init(sample_rate: f32, frequency: f32) {
+    let generator = tone_generator_mut_ref();
+    generator.init(sample_rate, frequency);
+}
+
+#[no_mangle]
 pub extern "C" fn render(raw_buffer: *mut f32, buffer_size: usize) {
-    let mut generator = TONE_GENERATOR.lock().unwrap();
+    let generator = tone_generator_mut_ref();
 
     let buffer: &mut [f32] = unsafe { std::slice::from_raw_parts_mut(raw_buffer, buffer_size) };
     generator.render(buffer);
@@ -73,13 +42,13 @@ pub extern "C" fn render(raw_buffer: *mut f32, buffer_size: usize) {
 
 #[no_mangle]
 pub extern "C" fn buffer_max_level(raw_buffer: *const f32, buffer_size: usize) -> f32 {
-    let mut generator = TONE_GENERATOR.lock().unwrap();
+    let generator = tone_generator_mut_ref();
     let buffer: &[f32] = unsafe { std::slice::from_raw_parts(raw_buffer, buffer_size) };
     generator.buffer_max_level(buffer)
 }
 
 #[no_mangle]
 pub extern "C" fn toggle_tone() {
-    let mut generator = TONE_GENERATOR.lock().unwrap();
+    let generator = tone_generator_mut_ref();
     generator.toggle_tone()
 }

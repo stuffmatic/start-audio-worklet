@@ -41,6 +41,9 @@ class DemoWasmProcessor extends AudioWorkletProcessor {
       this.outBufferPointer,
       bufferSize
     )
+
+    const toneGeneratorFrequency = 600;
+    this.wasm.exports.init(sampleRate, toneGeneratorFrequency)
   }
 
   process(inputs, outputs, parameters) {
